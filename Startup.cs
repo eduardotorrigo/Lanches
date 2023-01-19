@@ -1,3 +1,6 @@
+using LanchesMac.Infra.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace LanchesMac;
 
 public class Startup
@@ -7,13 +10,19 @@ public class Startup
         Configuration = configuration;
     }
 
+
     public IConfiguration Configuration { get; }
 
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddControllersWithViews();
-
+        var connectionsString = Configuration.GetConnectionString("DefaultConnection");
+        services.AddDbContext<ApplicationDbContext>(options =>
+        {
+            options.UseMySql(connectionsString, ServerVersion.AutoDetect(connectionsString));
+        });
     }
+
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
@@ -30,9 +39,9 @@ public class Startup
         app.UseStaticFiles();
 
         app.UseRouting();
- 
+
         app.UseAuthorization();
- 
+
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllerRoute(
