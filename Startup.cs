@@ -1,4 +1,6 @@
 using LanchesMac.Infra.Data;
+using LanchesMac.Infra.Repositories;
+using LanchesMac.Infra.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
 
 namespace LanchesMac;
@@ -21,6 +23,10 @@ public class Startup
         {
             options.UseMySql(connectionsString, ServerVersion.AutoDetect(connectionsString));
         });
+
+        services.AddTransient<ICategoriaRepository, CategoriaRepository>();
+        services.AddTransient<ILancheRepository, LancheRepository>();
+        
     }
 
 
