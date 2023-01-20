@@ -1,0 +1,47 @@
+[33mcommit 12d0ffb34250c38114351bda07db8f9deb7f00d7[m[33m ([m[1;36mHEAD -> [m[1;32mdefault[m[33m)[m
+Author: Eduardo Torrigo <eduardo.tmuniz@gmail.com>
+Date:   Thu Jan 19 18:24:21 2023 -0300
+
+    Desenvolvido a View da Entidade Lanche
+    
+    criado a pasta repositories com acesso a dados e criado o controlador da view lanches
+
+[33mcommit 88ed450c47c214692c24911735486454d5c3bbc9[m
+Author: Eduardo Torrigo <eduardo.tmuniz@gmail.com>
+Date:   Wed Jan 18 23:25:51 2023 -0300
+
+    Aplicando Migration
+    
+    foi gerado o primeiro migration e populando as tabelas categoria e lanches
+
+[33mcommit 4e46358fab02d60cc9ac7774ac181dfc83b5de9e[m[33m ([m[1;31morigin/default[m[33m, [m[1;32mmaster[m[33m)[m
+Author: Eduardo Torrigo <eduardo.tmuniz@gmail.com>
+Date:   Wed Jan 18 10:52:12 2023 -0300
+
+    Criado o Modelo Relaciona
+    
+    Foi criado as classes Categoria, Lanche e a Entity para auditoria
+
+[33mcommit 1728d7a781698dc499cecef05621d292d00d32e9[m
+Author: Eduardo Torrigo <eduardo.tmuniz@gmail.com>
+Date:   Tue Jan 17 17:14:54 2023 -0300
+
+    Criado o Carousel no site de vendas
+
+[33mcommit cf571fb94409e2da784e65c8ee0db34c477399f1[m
+Author: Eduardo Torrigo <eduardo.tmuniz@gmail.com>
+Date:   Tue Jan 17 16:31:29 2023 -0300
+
+    Downgrade da vesão para adequar ao projeto e criado a classe Startup
+
+[33mcommit d91cb8128ca167a7cc355d1af34601081ce607b1[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Author: Eduardo Torrigo <eduardo.tmuniz@gmail.com>
+Date:   Tue Jan 17 15:46:10 2023 -0300
+
+    Criação do Projeto
+
+[33mcommit 4f1fa5fadefa6f9035bf08b12488cf7a0a2b881f[m
+Author: eduardotorrigo <113459819+eduardotorrigo@users.noreply.github.com>
+Date:   Tue Jan 17 15:32:54 2023 -0300
+
+    Initial commit
