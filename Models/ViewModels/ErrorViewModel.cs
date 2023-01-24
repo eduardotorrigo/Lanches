@@ -1,4 +1,4 @@
-namespace LanchesMac.Models;
+namespace LanchesMac.Models.ViewModels;
 
 public class ErrorViewModel
 {

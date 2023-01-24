@@ -1,6 +1,7 @@
 using LanchesMac.Infra.Data;
 using LanchesMac.Infra.Repositories;
 using LanchesMac.Infra.Repositories.Interface;
+using LanchesMac.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace LanchesMac;
@@ -26,7 +27,12 @@ public class Startup
 
         services.AddTransient<ICategoriaRepository, CategoriaRepository>();
         services.AddTransient<ILancheRepository, LancheRepository>();
-        
+        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        services.AddScoped(sp => CarrinhoCompra.GetCarrinho(sp));
+
+        services.AddMemoryCache();
+        services.AddSession();
+
     }
 
 
@@ -45,6 +51,7 @@ public class Startup
         app.UseStaticFiles();
 
         app.UseRouting();
+        app.UseSession();
 
         app.UseAuthorization();
 
