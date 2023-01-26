@@ -2,8 +2,10 @@
 
 <div class="container">
     <div class="row">
+        <div>
         <img src="~/images/Full-Cart-icon.png" />
-        <div><h4>Seu carrinho de compras : </h4></div>
+    <h4> Seu carrinho de compras : </h4>
+</div>
         <br />
         <table class="table table-bordered table-striped">
             <tr>
@@ -20,7 +22,7 @@
                         <td class="text-center">@item.Quantidade</td>
                         <td class="text-left">@item.Lanche.Nome</td>
                         <td class="text-right">@item.Lanche.Preco.ToString("C")</td>
-                        <td class="text-right">@item.Quantidade * @item.Lanche.Preco.ToString("C")</td>
+                        <td class="text-right">@((item.Quantidade * @item.Lanche.Preco).ToString("C"))</td>
                         <td class="text-center">
                             <a asp-controller="CarrinhoCompras" asp-action="RemoverItemDoCarrinhoCompra"
                             asp-route-lancheId="@item.LancheId"><img src="~/images/delete.png"></a>
@@ -31,9 +33,9 @@
             </tbody>
             <tfoot>
                 <tr>
-
-                    <td colspan="3" class="text-right"><b>Total: </b></td>
-                    <td class="text-center"><b>@Model.CarrinhoCompraTotal </b></td>
+                    <td colspan="2"></td>
+                    <td class="text-center"><b>Total:</b></td>
+                    <td class="text-center"><b>@Model.CarrinhoCompraTotal.ToString("C") </b></td>
                     <td></td>
                 </tr>
             </tfoot>
@@ -42,7 +44,7 @@
             <div class="btn-group">
                 <a class="btn btn-success" asp-controller="Pedido" asp-action="Checkout">Encerrar Pedido</a>
                 &nbsp;&nbsp;&nbsp;
-                <a class="btn btn-primary" asp-controller="Lanche" asp-action="List">Continuar Comprando</a>
+                <a class="btn btn-primary" asp-controller="Lanches" asp-action="List">Continuar Comprando</a>
             </div>
         </div>
         <br />

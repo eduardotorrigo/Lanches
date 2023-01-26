@@ -1,0 +1,25 @@
+@model Lanche
+@{
+  ViewData["Title"] = "Detalhe do Lanches";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="card" style="width: 40rem;">
+            <div class="text-center">
+                <img src="@Model.ImagemUrl" class="card-img-top" >
+            </div>
+            <div class="card-block">
+                <h2 class="card-title">@Model.Nome</h2>
+                <p class="card-text"><h5>@Model.DescricaoLonga</h5></p>
+                <p class="btn btn-group align-content-lg-end">
+                    <a class="btn btn-outline-info" asp-controller="Lanches" asp-action="List">Ver todos os lanches</a>
+                    <a class="btn btn-primary" id="cartButton" asp-area="" asp-controller="CarrinhoCompras" asp-action="AdicionarItemNoCarrinhoCompra"
+                       asp-route-lancheId="@Model.LancheId">
+                        Adicionar @Model.Nome ao carrinho
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

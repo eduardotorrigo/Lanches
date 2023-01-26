@@ -23,10 +23,10 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Lanches" asp-action="List">Lanches</a>
+                            @await Component.InvokeAsync("CategoriaMenu")
                         </li>
                     </ul>
-                    @await Component.InvokeAsync("CarrinhoCompraResumo") a
+                    @await Component.InvokeAsync("CarrinhoCompraResumo")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </div>
             </div>
         </nav>

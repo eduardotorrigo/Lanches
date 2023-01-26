@@ -4,6 +4,13 @@
     <p><img src="@Model.ImagemUrl" class="img-fluid"></p>
 
     <h3>@Model.Preco.ToString("C")</h3>
-    <h4>@Model.Nome</h4>
+    <h4>
+        <a asp-controller="Lanches" asp-action="Details" 
+        asp-route-lancheId="@Model.LancheId">@Model.Nome</a>
+    </h4>
     <p>@Model.DescricaoCurta</p>
+    <div>
+        <p><a class="btn btn-primary" id="cartButton" asp-controller="CarrinhoCompras" 
+        asp-action="AdicionarItemNoCarrinhoCompra" asp-route-lancheId="@Model.LancheId">Incluir no Carrinho</a></p>
+    </div>
 </div>
