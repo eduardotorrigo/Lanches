@@ -1,9 +1,11 @@
 using LanchesMac.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace LanchesMac.Infra.Data;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 {
     public DbSet<Lanche> Lanches { get; set; }
     public DbSet<Categoria> Categorias { get; set; }
@@ -16,6 +18,8 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        base.OnModelCreating(builder);
+
         builder.Entity<Categoria>().HasData(
         new Categoria { CategoriaId = 1, Nome = "Normal", Descricao = "anche feito com ingredientes normais" },
         new Categoria { CategoriaId = 2, Nome = "Natural", Descricao = "Lanche feito com ingredientes integrais e naturais" }
