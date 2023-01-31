@@ -26,7 +26,15 @@
                             @await Component.InvokeAsync("CategoriaMenu")
                         </li>
                     </ul>
-                    @await Component.InvokeAsync("CarrinhoCompraResumo")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <form class="navbar-form navbar-right" asp-controller="Lanches" asp-action="Search" method="get">
+                        <div class="form-group">
+
+                            <input type="text" class="from-control" placeholder="Procurar produto" name="searchString"
+                            value="@ViewData["searchString"]">
+
+                        </div>
+                    </form>
+                    &nbsp;&nbsp;&nbsp;@await Component.InvokeAsync("CarrinhoCompraResumo")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </div>
             </div>
         </nav>
