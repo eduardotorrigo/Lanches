@@ -26,6 +26,7 @@
                             @await Component.InvokeAsync("CategoriaMenu")
                         </li>
                     </ul>
+                    @await Html.PartialAsync("_LoginPartial.cshtml");
                     <form class="navbar-form navbar-right" asp-controller="Lanches" asp-action="Search" method="get">
                         <div class="form-group">
 

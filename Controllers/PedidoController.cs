@@ -1,6 +1,7 @@
 using LanchesMac.Infra.Data;
 using LanchesMac.Infra.Repositories.Interface;
 using LanchesMac.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LanchesMac.Controllers;
@@ -22,6 +23,7 @@ public class PedidoController : Controller
         return View();
     }
 
+    [Authorize]
     [HttpPost]
     public IActionResult Checkout(Pedido pedido)
     {

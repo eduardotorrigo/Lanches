@@ -25,7 +25,14 @@ public class Startup
         {
             options.UseMySql(connectionsString, ServerVersion.AutoDetect(connectionsString));
         });
-        services.AddIdentity<IdentityUser, IdentityRole>()
+        services.AddIdentity<IdentityUser, IdentityRole>(options =>
+        {
+            options.Password.RequiredLength = 3;
+            options.Password.RequireUppercase = false;
+            options.Password.RequireLowercase = false;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequireDigit = false;
+        })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -63,6 +70,10 @@ public class Startup
 
         app.UseEndpoints(endpoints =>
         {
+            endpoints.MapControllerRoute(
+                name: "areas",
+                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
             endpoints.MapControllerRoute(
                 name: "categoriaFiltro",
                 pattern: "Lanche/{action}/{categoria?}",
