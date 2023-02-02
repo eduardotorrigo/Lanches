@@ -26,6 +26,10 @@
                             @await Component.InvokeAsync("CategoriaMenu")
                         </li>
                     </ul>
+                    @if(User.IsInRole("Admin"))
+                    {
+                        <a class="nav-link text-light" asp-area="Admin" asp-controller="Admin" asp-action="Index">Admin</a>
+                    }
                     @await Html.PartialAsync("_LoginPartial.cshtml");
                     <form class="navbar-form navbar-right" asp-controller="Lanches" asp-action="Search" method="get">
                         <div class="form-group">

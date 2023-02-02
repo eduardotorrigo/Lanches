@@ -2,6 +2,7 @@ using LanchesMac.Infra.Data;
 using LanchesMac.Infra.Repositories;
 using LanchesMac.Infra.Repositories.Interface;
 using LanchesMac.Models;
+using LanchesMac.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -39,6 +40,15 @@ public class Startup
         services.AddTransient<ICategoriaRepository, CategoriaRepository>();
         services.AddTransient<ILancheRepository, LancheRepository>();
         services.AddTransient<IPedidoRepository, PedidoRepository>();
+        services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
+
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy("Admin", politica =>
+            {
+                politica.RequireRole("Admin");
+            });
+        });
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddScoped(sp => CarrinhoCompra.GetCarrinho(sp));
 
@@ -48,7 +58,7 @@ public class Startup
     }
 
 
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ISeedUserRoleInitial seed)
     {
         if (env.IsDevelopment())
         {
@@ -63,6 +73,9 @@ public class Startup
         app.UseStaticFiles();
 
         app.UseRouting();
+        seed.SeedRoles();
+        seed.SeedUsers();
+
         app.UseSession();
 
         app.UseAuthentication();
@@ -71,8 +84,8 @@ public class Startup
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllerRoute(
-                name: "areas",
-                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+            name : "areas",
+            pattern : "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
 
             endpoints.MapControllerRoute(
                 name: "categoriaFiltro",
