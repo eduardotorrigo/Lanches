@@ -1,0 +1,66 @@
+@model LanchesMac.Models.ViewModels.CategoriaListViewModel
+
+@{
+    ViewData["Title"] = "Editar";
+}
+
+<h1>Edit</h1>
+
+<h4>Lanche</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Lanche.LancheId" />
+            <div class="form-group">
+                <label asp-for="Lanche.Nome" class="control-label"></label>
+                <input asp-for="Lanche.Nome" class="form-control" />
+                <span asp-validation-for="Lanche.Nome" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lanche.DescricaoCurta" class="control-label"></label>
+                <input asp-for="Lanche.DescricaoCurta" class="form-control" />
+                <span asp-validation-for="Lanche.DescricaoCurta" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lanche.DescricaoLonga" class="control-label"></label>
+                <input asp-for="Lanche.DescricaoLonga" class="form-control" />
+                <span asp-validation-for="Lanche.DescricaoLonga" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lanche.Preco" class="control-label"></label>
+                <input asp-for="Lanche.Preco" class="form-control" />
+                <span asp-validation-for="Lanche.Preco" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lanche.ImagemUrl" class="control-label"></label>
+                <input asp-for="Lanche.ImagemUrl" class="form-control" />
+                <span asp-validation-for="Lanche.ImagemUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lanche.ImagemThumbnailUrl" class="control-label"></label>
+                <input asp-for="Lanche.ImagemThumbnailUrl" class="form-control" />
+                <span asp-validation-for="Lanche.ImagemThumbnailUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Lanche.LanchePreferido" /> @Html.DisplayNameFor(model => model.Lanche.LanchePreferido)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Lanche.EmEstoque" /> @Html.DisplayNameFor(model => model.Lanche.EmEstoque)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lanche.CategoriaId" class="control-label">Categoria</label>
+                <select asp-for="Lanche.CategoriaId" class ="form-control" asp-items="@(new SelectList(Model.Categorias, "CategoriaId", "Nome"))"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-primary" />&nbsp;
+                <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -8,17 +8,17 @@ public class Lanche : Entity
     public int LancheId { get; set; }
 
     [Required(ErrorMessage = "Informe o nome do lanche")]
-    [StringLength(60, MinimumLength = 10, ErrorMessage = "O {0} de ter no mínimo {1} e no máximo {2} caracteres")]
+    [StringLength(60, MinimumLength = 10, ErrorMessage = "O {0} deve ter no mínimo {2} e no máximo {1} caracteres")]
     [Display(Name = "Nome do Lanche")]
     public string Nome { get; set; }
 
     [Required(ErrorMessage = "Informe a descrição do lanche")]
-    [StringLength(120, MinimumLength = 20, ErrorMessage = "O {0} de ter no mínimo {1} e no máximo {2} caracteres")]
+    [StringLength(120, MinimumLength = 20, ErrorMessage = "O {0} deve ter no mínimo {2} e no máximo {1} caracteres")]
     [Display(Name = "Descrição do Lanche")]
     public string DescricaoCurta { get; set; }
 
     [Required(ErrorMessage = "Informe a descrição detalhada do lanche")]
-    [StringLength(200, MinimumLength = 20, ErrorMessage = "O {0} de ter no mínimo {1} e no máximo {2} caracteres")]
+    [StringLength(200, MinimumLength = 20, ErrorMessage = "O {0} de ter no mínimo {2} e no máximo {1} caracteres")]
     [Display(Name = "Descrição detalhada do Lanche")]
     public string DescricaoLonga { get; set; }
 
@@ -35,10 +35,10 @@ public class Lanche : Entity
     [StringLength(100, ErrorMessage = "O {0} de ter no mínimo {1} e no máximo {2} caracteres")]
     public string ImagemThumbnailUrl { get; set; }
 
-    [Display(Name = "Preferido")]
+    [Display(Name = "Preferido?")]
     public bool LanchePreferido { get; set; }
 
-    [Display(Name = "Estoque")]
+    [Display(Name = "Em Estoque")]
     public bool EmEstoque { get; set; }
     public int CategoriaId { get; set; }
     public virtual Categoria Categoria { get; set; }

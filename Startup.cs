@@ -41,6 +41,9 @@ public class Startup
         services.AddTransient<ILancheRepository, LancheRepository>();
         services.AddTransient<IPedidoRepository, PedidoRepository>();
         services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
+        services.AddScoped<CategoriaService>();
+        services.AddScoped<LancheService>();
+        services.AddScoped<PedidoService>();
 
         services.AddAuthorization(options =>
         {
