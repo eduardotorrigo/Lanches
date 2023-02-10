@@ -1,0 +1,34 @@
+@model PedidoLancheViewModel
+
+@{
+    ViewData["Title"] = "LanchesMac do Pedido";
+    decimal totalPedido = 0;
+}
+<h1>@ViewData["Title"] </h1>
+<hr>
+
+<h3>Pedido : @Html.DisplayFor(model => @Model.Pedido.PedidoId) </h3>
+<h3>Cliente : @Html.DisplayFor(model => @Model.Pedido.Nome) </h3>
+<h3>Data : @Html.DisplayFor(model => @Model.Pedido.PedidoEnviado) </h3>
+<h3>Entrega : @Html.DisplayFor(model => @Model.Pedido.PedidoEntregueEm) </h3>
+
+<table class="table">
+    @foreach (var item in @Model.Pedido.PedidoItens)
+    {
+        totalPedido += (@item.Lanche.Preco * @item.Quantidade);
+
+        <tr>
+            <td align="right">@Html.DisplayFor(modelItem => item.Lanche.Nome)</td>
+            <td align="right"><img src="@item.Lanche.ImagemUrl" class="img-fluid" height="100" width="100"></td>
+            <td align="right">@string.Format("{0:C}", item.Lanche.Preco)</td>
+            <td align="right">(@Html.DisplayFor(modelItem => item.Quantidade))</td>
+        </tr>
+    }
+    <tr>
+        <td colspan="2">&nbsp;</td>
+        <td align="right">
+            <h3>Total Pedido : @string.Format("{0:C}", totalPedido)</h3>
+        </td>
+    </tr>
+</table>
+<a asp-action="Index" class="btn btn-secondary">Retornar</a>

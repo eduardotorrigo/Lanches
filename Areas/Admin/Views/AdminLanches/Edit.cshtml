@@ -9,7 +9,7 @@
 <h4>Lanche</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-10">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Lanche.LancheId" />
@@ -33,29 +33,39 @@
                 <input asp-for="Lanche.Preco" class="form-control" />
                 <span asp-validation-for="Lanche.Preco" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Lanche.ImagemUrl" class="control-label"></label>
-                <input asp-for="Lanche.ImagemUrl" class="form-control" />
-                <span asp-validation-for="Lanche.ImagemUrl" class="text-danger"></span>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label asp-for="Lanche.ImagemUrl" class="control-label"></label>
+                    <input asp-for="Lanche.ImagemUrl" class="form-control" />
+                    <span asp-validation-for="Lanche.ImagemUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <img src="@Model.Lanche.ImagemUrl" alt="">
+                </div>
             </div>
             <div class="form-group">
                 <label asp-for="Lanche.ImagemThumbnailUrl" class="control-label"></label>
                 <input asp-for="Lanche.ImagemThumbnailUrl" class="form-control" />
                 <span asp-validation-for="Lanche.ImagemThumbnailUrl" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Lanche.LanchePreferido" /> @Html.DisplayNameFor(model => model.Lanche.LanchePreferido)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Lanche.EmEstoque" /> @Html.DisplayNameFor(model => model.Lanche.EmEstoque)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="Lanche.CategoriaId" class="control-label">Categoria</label>
-                <select asp-for="Lanche.CategoriaId" class ="form-control" asp-items="@(new SelectList(Model.Categorias, "CategoriaId", "Nome"))"></select>
+            <div class="row">
+                <div class="form-group col-sm-4">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Lanche.LanchePreferido" /> @Html.DisplayNameFor(model
+                        => model.Lanche.LanchePreferido)
+                    </label>
+                </div>
+                <div class="form-group col-sm-4">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Lanche.EmEstoque" /> @Html.DisplayNameFor(model =>
+                        model.Lanche.EmEstoque)
+                    </label>
+                </div>
+                <div class="form-group col-sm-4">
+                    <label asp-for="Lanche.CategoriaId" class="control-label">Categorias</label>
+                    <select asp-for="Lanche.CategoriaId" class="form-control"
+                        asp-items="@(new SelectList(Model.Categorias, "CategoriaId", "Nome"))"></select>
+                </div>
             </div>
             <div class="form-group">
                 <input type="submit" value="Salvar" class="btn btn-primary" />&nbsp;

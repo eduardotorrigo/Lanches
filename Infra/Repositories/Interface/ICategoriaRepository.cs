@@ -4,5 +4,10 @@ namespace LanchesMac.Infra.Repositories.Interface;
 
 public interface ICategoriaRepository
 {
-    IEnumerable<Categoria> Categorias { get; }
+    IQueryable<Categoria> Categorias { get; }
+    Categoria FindById(int categoriaId);
+    Task Insert(Categoria categoria);
+    Task Remove(int id);
+    Task Update(Categoria categoria);
+
 }

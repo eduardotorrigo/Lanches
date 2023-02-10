@@ -10,6 +10,8 @@ using LanchesMac.Models;
 using System.Security.Claims;
 using LanchesMac.Services;
 using Microsoft.AspNetCore.Authorization;
+using ReflectionIT.Mvc.Paging;
+using LanchesMac.Infra.Repositories.Interface;
 
 namespace LanchesMac.Areas_Admin_Controllers
 {
@@ -17,21 +19,28 @@ namespace LanchesMac.Areas_Admin_Controllers
     [Authorize(Roles = "Admin")]
     public class AdminCategoriasController : Controller
     {
-        private readonly CategoriaService _categoriaService;
+        private readonly ICategoriaRepository _categoriaRepository;
 
-        public AdminCategoriasController(CategoriaService categoriaService)
+        public AdminCategoriasController(ICategoriaRepository categoriaRepository)
         {
-            _categoriaService = categoriaService;
+            _categoriaRepository = categoriaRepository;
         }
 
         // GET: AdminCategorias
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string filter, int pageindex = 1, string sort = "Nome")
         {
+            var result = _categoriaRepository.Categorias;
+            if (!string.IsNullOrWhiteSpace(filter))
+            {
+                result = result.Where(c => c.Nome.Contains(filter));
+            }
+            var model = await PagingList.CreateAsync(result, 5, pageindex, sort, "Nome");
+            model.RouteValue = new RouteValueDictionary { { "filter", filter } };
 
-            return View(await _categoriaService.FindAll());
+            return View(model);
         }
 
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
 
             if (id == null)
@@ -39,7 +48,7 @@ namespace LanchesMac.Areas_Admin_Controllers
                 return NotFound();
             }
 
-            var result = await _categoriaService.FindById(id.Value);
+            var result = _categoriaRepository.FindById(id.Value);
 
             if (result == null)
                 return NotFound();
@@ -63,20 +72,20 @@ namespace LanchesMac.Areas_Admin_Controllers
                 categoria.EditedBy = "Teste";
                 categoria.CreatedOn = DateTime.Now;
                 categoria.EditedOn = DateTime.Now;
-                await _categoriaService.Insert(categoria);
+                await _categoriaRepository.Insert(categoria);
                 return RedirectToAction(nameof(Index));
             }
             return View(categoria);
         }
 
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var categoria = await _categoriaService.FindById(id.Value);
+            var categoria = _categoriaRepository.FindById(id.Value);
             if (categoria == null)
             {
                 return NotFound();
@@ -95,7 +104,7 @@ namespace LanchesMac.Areas_Admin_Controllers
                 {
                     categoria.EditedBy = "Teste2";
                     categoria.EditedOn = DateTime.Now;
-                    await _categoriaService.Update(categoria);
+                    await _categoriaRepository.Update(categoria);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -106,12 +115,12 @@ namespace LanchesMac.Areas_Admin_Controllers
             return View(categoria);
         }
 
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
                 return NotFound();
 
-            var categoria = await _categoriaService.FindById(id.Value);
+            var categoria = _categoriaRepository.FindById(id.Value);
             if (categoria == null)
             {
                 return NotFound();
@@ -124,7 +133,7 @@ namespace LanchesMac.Areas_Admin_Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            await _categoriaService.Remove(id);
+            await _categoriaRepository.Remove(id);
             return RedirectToAction(nameof(Index));
         }
 

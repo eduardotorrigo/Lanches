@@ -13,6 +13,8 @@ using System.Security.Claims;
 using LanchesMac.Services;
 using LanchesMac.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using LanchesMac.Infra.Repositories.Interface;
+using ReflectionIT.Mvc.Paging;
 
 namespace LanchesMac.Controllers
 {
@@ -20,27 +22,35 @@ namespace LanchesMac.Controllers
     [Authorize(Roles = "Admin")]
     public class AdminLanchesController : Controller
     {
-        private readonly LancheService _lancheService;
-        private readonly CategoriaService _categoriaService;
+        private readonly ILancheRepository _lancheRepository;
+        private readonly ICategoriaRepository _categoriaRepository;
 
-        public AdminLanchesController(LancheService lancheService, CategoriaService categoriaService)
+        public AdminLanchesController(ILancheRepository lancheRepository, ICategoriaRepository categoriaRepository)
         {
-            _lancheService = lancheService;
-            _categoriaService = categoriaService;
+            _lancheRepository = lancheRepository;
+            _categoriaRepository = categoriaRepository;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string filter, int pageindex = 1, string sort = "Nome")
         {
-            var lanches = await _lancheService.FindAll();
-            return View(lanches);
+            var result = _lancheRepository.Lanches;
+            if (!string.IsNullOrWhiteSpace(filter))
+            {
+                result = result.Where(l => l.Nome.Contains(filter));
+            }
+
+            var model = await PagingList.CreateAsync(result, 5, pageindex, sort, "Nome");
+            model.RouteValue = new RouteValueDictionary { { "filter", filter } };
+
+            return View(model);
         }
 
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
                 return NotFound();
 
-            var lanche = await _lancheService.FindById(id.Value);
+            var lanche = _lancheRepository.GetLancheById(id.Value);
 
             if (lanche == null)
                 return NotFound();
@@ -48,9 +58,9 @@ namespace LanchesMac.Controllers
             return View(lanche);
         }
 
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
-            var categoria = await _categoriaService.FindAll();
+            var categoria = _categoriaRepository.Categorias.ToList();
             var categoriaViewModel = new CategoriaListViewModel { Categorias = categoria };
 
             return View(categoriaViewModel);
@@ -67,22 +77,22 @@ namespace LanchesMac.Controllers
                 lanche.EditedBy = user;
                 lanche.CreatedOn = DateTime.Now;
                 lanche.EditedOn = DateTime.Now;
-                await _lancheService.Insert(lanche);
+                await _lancheRepository.Insert(lanche);
                 return RedirectToAction(nameof(Index));
             }
             return View(lanche);
         }
 
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
                 return NotFound();
 
-            var lanche = await _lancheService.FindById(id.Value);
+            var lanche = _lancheRepository.GetLancheById(id.Value);
             if (lanche == null)
                 return NotFound();
 
-            List<Categoria> categorias = await _categoriaService.FindAll();
+            List<Categoria> categorias = _categoriaRepository.Categorias.ToList();
             var categoriaViewModel = new CategoriaListViewModel { Lanche = lanche, Categorias = categorias };
             return View(categoriaViewModel);
         }
@@ -98,7 +108,7 @@ namespace LanchesMac.Controllers
 
             if (!ModelState.IsValid)
             {
-                var categoria = await _categoriaService.FindAll();
+                var categoria = _categoriaRepository.Categorias.ToList();
                 var categoriaViewModel = new CategoriaListViewModel { Lanche = lanche, Categorias = categoria };
                 return View(categoriaViewModel);
             }
@@ -107,7 +117,7 @@ namespace LanchesMac.Controllers
                 var user = "teste";//http.User.Identity.Name;
                 lanche.EditedBy = user;
                 lanche.EditedOn = DateTime.Now;
-                await _lancheService.Update(lanche);
+                await _lancheRepository.Update(lanche);
 
             }
             catch (DbUpdateConcurrencyException)
@@ -118,12 +128,12 @@ namespace LanchesMac.Controllers
         }
 
         // GET: AdminLanches/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
                 return NotFound();
 
-            var lanche = await _lancheService.FindById(id.Value);
+            var lanche = _lancheRepository.GetLancheById(id.Value);
             if (lanche == null)
             {
                 return NotFound();
@@ -136,7 +146,7 @@ namespace LanchesMac.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            await _lancheService.Delete(id);
+            await _lancheRepository.Delete(id);
             return RedirectToAction(nameof(Index));
         }
     }

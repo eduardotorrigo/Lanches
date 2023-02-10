@@ -1,3 +1,4 @@
+using LanchesMac.Areas.Admin.Services;
 using LanchesMac.Infra.Data;
 using LanchesMac.Infra.Repositories;
 using LanchesMac.Infra.Repositories.Interface;
@@ -5,6 +6,7 @@ using LanchesMac.Models;
 using LanchesMac.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using ReflectionIT.Mvc.Paging;
 
 namespace LanchesMac;
 
@@ -41,9 +43,7 @@ public class Startup
         services.AddTransient<ILancheRepository, LancheRepository>();
         services.AddTransient<IPedidoRepository, PedidoRepository>();
         services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
-        services.AddScoped<CategoriaService>();
-        services.AddScoped<LancheService>();
-        services.AddScoped<PedidoService>();
+        services.AddScoped<RelatorioVendasService>();
 
         services.AddAuthorization(options =>
         {
@@ -54,6 +54,12 @@ public class Startup
         });
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddScoped(sp => CarrinhoCompra.GetCarrinho(sp));
+
+        services.AddPaging(options =>
+        {
+            options.ViewName = "Bootstrap4";
+            options.PageParameterName = "pageindex";
+        });
 
         services.AddMemoryCache();
         services.AddSession();
@@ -87,18 +93,18 @@ public class Startup
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllerRoute(
-            name : "areas",
-            pattern : "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
+            name: "areas",
+            pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
 
             endpoints.MapControllerRoute(
                 name: "categoriaFiltro",
                 pattern: "Lanche/{action}/{categoria?}",
-                defaults: new {controller="Lanche", action="List"});
+                defaults: new { controller = "Lanche", action = "List" });
 
-                endpoints.MapControllerRoute(
-                name: "admin",
-                pattern: "admin",
-                defaults: new {controller="Admin", action="Index"});
+            endpoints.MapControllerRoute(
+            name: "admin",
+            pattern: "admin",
+            defaults: new { controller = "Admin", action = "Index" });
 
             endpoints.MapControllerRoute(
                 name: "default",

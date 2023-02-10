@@ -4,7 +4,10 @@ namespace LanchesMac.Infra.Repositories.Interface;
 
 public interface ILancheRepository
 {
-    IEnumerable<Lanche> Lanches { get; }
+    IQueryable<Lanche> Lanches { get; }
     IEnumerable<Lanche> LanchesPreferidos { get; }
     Lanche GetLancheById(int lancheId);
+    Task Insert(Lanche lanche);
+    Task Update(Lanche lanche);
+    Task Delete(int id);
 }
