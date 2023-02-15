@@ -28,6 +28,8 @@ public class Startup
         {
             options.UseMySql(connectionsString, ServerVersion.AutoDetect(connectionsString));
         });
+
+        services.Configure<ConfigurationImagens>(Configuration.GetSection("ConfigurationPastaImagens"));
         services.AddIdentity<IdentityUser, IdentityRole>(options =>
         {
             options.Password.RequiredLength = 3;

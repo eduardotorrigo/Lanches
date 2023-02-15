@@ -40,7 +40,7 @@
                     <span asp-validation-for="Lanche.ImagemUrl" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-6">
-                    <img src="@Model.Lanche.ImagemUrl" alt="">
+                    <img src="@Model.Lanche.ImagemUrl" asp-append-version="true">
                 </div>
             </div>
             <div class="form-group">

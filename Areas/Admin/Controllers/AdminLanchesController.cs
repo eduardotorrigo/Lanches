@@ -80,7 +80,10 @@ namespace LanchesMac.Controllers
                 await _lancheRepository.Insert(lanche);
                 return RedirectToAction(nameof(Index));
             }
-            return View(lanche);
+             var categoria = _categoriaRepository.Categorias.ToList();
+            var categoriaViewModel = new CategoriaListViewModel {Lanche = lanche,  Categorias = categoria };
+
+            return View(categoriaViewModel);
         }
 
         public IActionResult Edit(int? id)
